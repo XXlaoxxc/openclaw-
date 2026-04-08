@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.23-2",
+    "lastTouchedAt": "2026-04-08T08:07:46.213Z"
+  },
+  "env": {
+    "vars": {
+      "GITHUB_TOKEN": "YOUR_GITHUB_TOKEN_HERE"
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "qwencode": {
+        "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+        "apiKey": "YOUR_QWEN_API_KEY_HERE",
+        "api": "openai-completions",
+        "models": [
+          {"id": "qwen3.5-plus", "name": "Qwen3.5 Plus"},
+          {"id": "qwen3-max-2026-01-23", "name": "Qwen3 Max"},
+          {"id": "qwen3-coder-plus", "name": "Qwen3 Coder Plus"},
+          {"id": "MiniMax-M2.5", "name": "MiniMax M2.5"},
+          {"id": "kimi-k2.5", "name": "Kimi K2.5"},
+          {"id": "glm-5", "name": "GLM-5"},
+          {"id": "glm-4.7", "name": "GLM-4.7"},
+          {"id": "deepseek-v3.2", "name": "DeepSeek V3.2"}
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {"primary": "qwencode/qwen3.5-plus"},
+      "models": {
+        "qwencode/qwen3.5-plus": {"alias": "Plus", "params": {"temperature": 0.7, "maxTokens": 8192}},
+        "qwencode/qwen3-max-2026-01-23": {"alias": "Max", "params": {"temperature": 0.7, "maxTokens": 16384}},
+        "qwencode/qwen3-coder-plus": {"alias": "Coder", "params": {"temperature": 0.5, "maxTokens": 16384}},
+        "qwencode/MiniMax-M2.5": {"alias": "MiniMax", "params": {"temperature": 0.6, "maxTokens": 8192}},
+        "qwencode/kimi-k2.5": {"alias": "Kimi", "params": {"temperature": 0.6, "maxTokens": 8192}},
+        "qwencode/glm-5": {"alias": "GLM5", "params": {"temperature": 0.7, "maxTokens": 8192}},
+        "qwencode/glm-4.7": {"alias": "GLM47", "params": {"temperature": 0.6, "maxTokens": 4096}},
+        "qwencode/deepseek-v3.2": {"alias": "DeepSeek", "params": {"temperature": 0.6, "maxTokens": 8192}}
+      },
+      "workspace": "/home/admin/.openclaw/workspace",
+      "compaction": {"mode": "safeguard"}
+    },
+    "list": [
+      {"id": "agent-xiaoyan-expert", "default": true, "name": "小焱智能专家", "workspace": "/home/admin/.openclaw/workspace-xiaoyan-expert", "agentDir": "/home/admin/.openclaw/agents/agent-xiaoyan-expert/agent", "model": "qwencode/qwen3-max-2026-01-23", "thinkingDefault": "high"},
+      {"id": "agent-xiaoyan-image", "name": "小焱生图助手", "workspace": "/home/admin/.openclaw/workspace-xiaoyan-image", "agentDir": "/home/admin/.openclaw/agents/agent-xiaoyan-image/agent", "model": "qwencode/qwen3.5-plus"},
+      {"id": "agent-xiaoyan-news", "name": "小焱资讯助手", "workspace": "/home/admin/.openclaw/workspace-xiaoyan-news", "agentDir": "/home/admin/.openclaw/agents/agent-xiaoyan-news/agent", "model": "qwencode/glm-5"},
+      {"id": "agent-xiaoyan-dev", "name": "小焱开发助手", "workspace": "/home/admin/.openclaw/workspace-xiaoyan-dev", "agentDir": "/home/admin/.openclaw/agents/agent-xiaoyan-dev/agent", "model": "qwencode/qwen3-coder-plus", "thinkingDefault": "high"},
+      {"id": "agent-xiaoyan-invest", "name": "小焱投资助手", "workspace": "/home/admin/.openclaw/workspace-xiaoyan-invest", "agentDir": "/home/admin/.openclaw/agents/agent-xiaoyan-invest/agent", "model": "qwencode/deepseek-v3.2", "thinkingDefault": "medium"},
+      {"id": "agent-xiaoyan-learn", "name": "小焱学习助手", "workspace": "/home/admin/.openclaw/workspace-xiaoyan-learn", "agentDir": "/home/admin/.openclaw/agents/agent-xiaoyan-learn/agent", "model": "qwencode/kimi-k2.5"},
+      {"id": "agent-xiaoyan-community", "name": "小焱社区助手", "workspace": "/home/admin/.openclaw/workspace-xiaoyan-community", "agentDir": "/home/admin/.openclaw/agents/agent-xiaoyan-community/agent", "model": "qwencode/MiniMax-M2.5"},
+      {"id": "agent-xiaoyan-write", "name": "小焱写作助手", "workspace": "/home/admin/.openclaw/workspace-xiaoyan-write", "agentDir": "/home/admin/.openclaw/agents/agent-xiaoyan-write/agent", "model": "qwencode/glm-4.7"}
+    ]
+  },
+  "tools": {"profile": "coding"},
+  "bindings": [
+    {"agentId": "agent-xiaoyan-news", "match": {"channel": "feishu", "accountId": "xiaoyan-news"}},
+    {"agentId": "agent-xiaoyan-invest", "match": {"channel": "feishu", "accountId": "xiaoyan-invest"}},
+    {"agentId": "agent-xiaoyan-write", "match": {"channel": "feishu", "accountId": "xiaoyan-write"}}
+  ],
+  "commands": {"native": "auto", "nativeSkills": "auto", "restart": true, "ownerDisplay": "raw"},
+  "session": {"dmScope": "per-channel-peer"},
+  "channels": {
+    "feishu": {
+      "accounts": {
+        "xiaoyan-news": {"appId": "YOUR_FEISHU_APP_ID_HERE", "appSecret": "YOUR_FEISHU_APP_SECRET_HERE"},
+        "xiaoyan-invest": {"appId": "YOUR_FEISHU_APP_ID_HERE", "appSecret": "YOUR_FEISHU_APP_SECRET_HERE"},
+        "xiaoyan-write": {"appId": "YOUR_FEISHU_APP_ID_HERE", "appSecret": "YOUR_FEISHU_APP_SECRET_HERE"}
+      }
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {"mode": "token", "token": "YOUR_GATEWAY_AUTH_TOKEN_HERE"},
+    "tailscale": {"mode": "off", "resetOnExit": false},
+    "nodes": {
+      "denyCommands": ["camera.snap", "camera.clip", "screen.record", "contacts.add", "calendar.add", "reminders.add", "sms.send"]
+    }
+  },
+  "plugins": {
+    "allow": ["feishu-openclaw-plugin", "dingtalk-connector", "qqbot", "wecom-openclaw-plugin", "feishu"],
+    "entries": {
+      "feishu-openclaw-plugin": {"enabled": true},
+      "dingtalk-connector": {"enabled": true},
+      "qqbot": {"enabled": true},
+      "wecom-openclaw-plugin": {"enabled": true},
+      "feishu": {"enabled": true}
+    }
+  }
+}
