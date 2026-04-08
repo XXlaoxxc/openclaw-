@@ -1,0 +1,28 @@
+# OpenClaw 敏感文件
+*.bak
+*.backup
+secrets.json
+.env
+.env.local
+
+# 配置文件备份
+openclaw.json.bak*
+openclaw-*.json
+
+# 日志和临时文件
+logs/
+tmp/
+temp/
+
+# 媒体文件
+media/
+
+# 设备配对信息
+devices/
+
+# 技能缓存
+skills/.cache/
+skills/node_modules/
+
+# 扩展插件缓存  
+extensions/*/node_modules/
